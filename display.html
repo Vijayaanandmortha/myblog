@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        #main-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .category-container {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .category-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #fff;
+            background-color: #555;
+            text-align: center;
+            width: max-content;
+            padding: 0 2rem 0 0.5rem;
+            border-radius: 5px;
+            font-weight: bolder;
+        }
+
+        .blogs-list {
+            padding: 10px 0;
+        }
+
+        .blog {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .blog h2 {
+            margin: 0;
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .blog-details {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .loading-message, .no-blogs-message {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            #main-container {
+                padding: 10px;
+            }
+
+            .category-container {
+                padding: 10px;
+            }
+
+            .category-title {
+                font-size: 20px;
+                color: #fff;
+                background-color: #555;
+                text-align: center;
+            }
+
+            .blog h2 {
+                font-size: 15px;
+            }
+            .blog-details {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vijayaanand's Blogspot</h1>
+    </header>
+
+    <div id="main-container">
+        <div class="category-container" id="space-container">
+            <div class="category-title">Space</div>
+            <div class="blogs-list" id="space-blogs"></div>
+        </div>
+        <div class="category-container" id="quantum-container">
+            <div class="category-title">Quantum Physics</div>
+            <div class="blogs-list" id="quantum-blogs"></div>
+        </div>
+        <div class="category-container" id="tech-container">
+            <div class="category-title">Technology</div>
+            <div class="blogs-list" id="tech-blogs"></div>
+        </div>
+        <div class="loading-message" id="loading-message">Loading blogs...</div>
+        <div class="no-blogs-message" id="no-blogs-message" style="display: none;">No blogs available</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAchO7QObkM-_bXLZvFoqS8cnGTmA2GEdY",
+            authDomain: "blog-posts-456ca.firebaseapp.com",
+            databaseURL: "https://blog-posts-456ca-default-rtdb.firebaseio.com",
+            projectId: "blog-posts-456ca",
+            storageBucket: "blog-posts-456ca.appspot.com",
+            messagingSenderId: "317505468284",
+            appId: "1:317505468284:web:e385ee1385b12eb9c356f9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to get data from Firebase and display it
+        function displayBlogs() {
+            const db = firebase.database().ref('blogs');
+            db.on('value', (snapshot) => {
+                const blogs = snapshot.val();
+                const spaceBlogsContainer = document.getElementById('space-blogs');
+                const quantumBlogsContainer = document.getElementById('quantum-blogs');
+                const techBlogsContainer = document.getElementById('tech-blogs');
+                const spaceContainer = document.getElementById('space-container');
+                const quantumContainer = document.getElementById('quantum-container');
+                const techContainer = document.getElementById('tech-container');
+                const noBlogsMessage = document.getElementById('no-blogs-message');
+                const loadingMessage = document.getElementById('loading-message');
+
+                spaceBlogsContainer.innerHTML = ''; 
+                quantumBlogsContainer.innerHTML = ''; 
+                techBlogsContainer.innerHTML = ''; 
+
+                let blogsAvailable = false;
+
+                if (blogs) {
+                    Object.keys(blogs).forEach(category => {
+                        const categoryBlogs = blogs[category];
+                        let container;
+
+                        switch (category.toLowerCase()) {
+                            case 'space_science':
+                                container = spaceBlogsContainer;
+                                break;
+                            case 'quantum_physics':
+                                container = quantumBlogsContainer;
+                                break;
+                            case 'technology':
+                                container = techBlogsContainer;
+                                break;
+                            default:
+                                return;
+                        }
+
+                        if (Object.keys(categoryBlogs).length === 0) {
+                            switch (category.toLowerCase()) {
+                                case 'space_science':
+                                    spaceContainer.style.display = 'none';
+                                    break;
+                                case 'quantum_physics':
+                                    quantumContainer.style.display = 'none';
+                                    break;
+                                case 'technology':
+                                    techContainer.style.display = 'none';
+                                    break;
+                            }
+                        } else {
+                            blogsAvailable = true;
+                            Object.keys(categoryBlogs).forEach(key => {
+                                const blog = categoryBlogs[key];
+                                const blogDiv = document.createElement('div');
+                                blogDiv.className = 'blog';
+                                blogDiv.onclick = () => {
+                                    window.location.href = `view.html?category=${category}&key=${key}`;
+                                };
+
+                                const title = document.createElement('h2');
+                                title.textContent = blog.title;
+
+                                const details = document.createElement('div');
+                                details.className = 'blog-details';
+                                details.innerHTML = `
+                                    <span>Author: ${blog.author}</span> |
+                                    <span>Date: ${new Date(blog.date).toLocaleDateString()}</span> |
+                                    <span>Views: ${blog.views_count || 0}</span>
+                                `;
+
+                                blogDiv.appendChild(title);
+                                blogDiv.appendChild(details);
+
+                                container.appendChild(blogDiv);
+                            });
+                        }
+                    });
+                } 
+
+                if (!blogsAvailable) {
+                    noBlogsMessage.style.display = 'block';
+                } else {
+                    noBlogsMessage.style.display = 'none';
+                }
+
+                loadingMessage.style.display = 'none';
+            });
+        }
+
+        // Load data from Firebase when the page is opened
+        window.onload = displayBlogs;
+    </script>
+</body>
+</html>

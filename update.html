@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input, textarea, select, button {
+            width: calc(100% - 20px); /* Adjust for padding */
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .buttons-container button {
+            flex: 1 1 45%; /* Flex-grow, flex-shrink, flex-basis */
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-right: 20px;
+        }
+        .buttons-container button:hover {
+            background-color: #0056b3;
+        }
+        .buttons-container button:last-child {
+            margin-top: 10px;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .buttons-container button {
+                margin-right: 20px;
+                width: 40%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Blog</h1>
+        <input type="text" id="title" placeholder="Blog Title" required>
+        <input type="text" id="author" placeholder="Author Name" required>
+        <textarea id="content" placeholder="Blog Content"></textarea>
+        <input type="date" id="date" placeholder="Blog Date" required>
+        <select id="category">
+            <option value="quantum_physics">quantum_physics</option>
+            <option value="space_science">space_science</option>
+            <option value="technology">Technology</option>
+            <!-- Add more categories as needed -->
+        </select>
+        <div class="buttons-container">
+            <button type="button" onclick="addTag('h1')">Add H1</button>
+            <button type="button" onclick="addTag('h3')">Add H3</button>
+            <button type="button" onclick="addTag('p')">Add Paragraph</button>
+            <button type="button" onclick="addImage()">Add Image</button>
+        </div>
+        <button type="submit" onclick="updateBlog()">Update Blog</button>
+        <button id="view" type="button" onclick="window.location.href='display.html'">View Blogs</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAchO7QObkM-_bXLZvFoqS8cnGTmA2GEdY",
+            authDomain: "blog-posts-456ca.firebaseapp.com",
+            databaseURL: "https://blog-posts-456ca-default-rtdb.firebaseio.com",
+            projectId: "blog-posts-456ca",
+            storageBucket: "blog-posts-456ca.appspot.com",
+            messagingSenderId: "317505468284",
+            appId: "1:317505468284:web:e385ee1385b12eb9c356f9"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const blog_db = firebase.database().ref("blogs");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentCategory = urlParams.get('category');
+        const blogKey = urlParams.get('key');
+
+        let viewsCount = 0; // Initialize views count
+
+        if (currentCategory && blogKey) {
+            blog_db.child(currentCategory).child(blogKey).once('value').then((snapshot) => {
+                const blog = snapshot.val();
+                if (blog) {
+                    document.getElementById('title').value = blog.title;
+                    document.getElementById('author').value = blog.author;
+                    document.getElementById('content').value = blog.content;
+                    document.getElementById('date').value = new Date(blog.date).toISOString().split('T')[0];
+                    document.getElementById('category').value = currentCategory;
+                    viewsCount = blog.views_count || 0; // Get the current views count
+                } else {
+                    alert("Blog not found");
+                }
+            }).catch((error) => {
+                console.error("Error fetching blog:", error);
+            });
+        } else {
+            alert("No blog key or category provided");
+            window.close();
+        }
+
+        function addTag(tag) {
+            const content = document.getElementById('content');
+            const tagText = `<${tag}></${tag}>`;
+            content.value += tagText;
+        }
+
+        function addImage() {
+            const url = prompt("Enter the image URL");
+            if (url) {
+                const content = document.getElementById('content');
+                const imgTag = `<img src="${url}" alt="Image">`;
+                content.value += imgTag;
+            }
+        }
+
+        function updateBlog() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const content = document.getElementById('content').value;
+            const date = document.getElementById('date').value;
+            const newCategory = document.getElementById('category').value;
+
+            const blogData = {
+                title: title,
+                author: author,
+                content: content,
+                date: new Date(date).toISOString(),
+                views_count: viewsCount // Preserve the views count
+            };
+
+            if (newCategory !== currentCategory) {
+                // Remove from old category
+                blog_db.child(currentCategory).child(blogKey).remove().then(() => {
+                    // Add to new category
+                    const newBlogRef = blog_db.child(newCategory).push();
+                    newBlogRef.set(blogData).then(() => {
+                        alert("Blog updated and moved to new category successfully!");
+                        window.location.href = 'display.html';
+                    }).catch((error) => {
+                        alert("Error occurred: " + error.message);
+                    });
+                }).catch((error) => {
+                    alert("Error occurred: " + error.message);
+                });
+            } else {
+                // Update within the same category
+                blog_db.child(currentCategory).child(blogKey).update(blogData, function(error) {
+                    if (error) {
+                        alert("Error occurred: " + error.message);
+                    } else {
+                        alert("Blog updated successfully!");
+                        window.location.href = 'admin.html';
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

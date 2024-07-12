@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input, textarea, button, select {
+            width: calc(100% - 20px); /* Adjust for padding */
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .buttons-container button {
+            flex: 1 1 45%; /* Flex-grow, flex-shrink, flex-basis */
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-right: 20px;
+        }
+        .buttons-container button:hover {
+            background-color: #0056b3;
+        }
+        .buttons-container button:last-child {
+            margin-top: 10px;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .buttons-container button {
+                margin-right: 20px;
+                width: 40%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Blog</h1>
+        <input type="text" id="title" placeholder="Blog Title" required>
+        <input type="text" id="author" placeholder="Author Name" required>
+        <select id="category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="quantum_physics">Quantum Physics</option>
+            <option value="space_science">Space</option>
+            <option value="technology">Technology</option>
+        </select>
+        <textarea id="content" placeholder="Blog Content"></textarea>
+        <div class="buttons-container">
+            <button type="button" onclick="addTag('h2')">Add H2</button>
+            <button type="button" onclick="addTag('h3')">Add H3</button>
+            <button type="button" onclick="addTag('p')">Add Paragraph</button>
+            <button type="button" onclick="addImage()">Add Image</button>
+        </div>
+        <button type="submit" onclick="saveBlog()">Save Blog</button>
+        <button id="view" type="button" onclick="window.location.href='dashboard.html'">View Blogs</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAchO7QObkM-_bXLZvFoqS8cnGTmA2GEdY",
+            authDomain: "blog-posts-456ca.firebaseapp.com",
+            databaseURL: "https://blog-posts-456ca-default-rtdb.firebaseio.com",
+            projectId: "blog-posts-456ca",
+            storageBucket: "blog-posts-456ca.appspot.com",
+            messagingSenderId: "317505468284",
+            appId: "1:317505468284:web:e385ee1385b12eb9c356f9"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        var blog_db = firebase.database().ref("blogs");
+
+        function addTag(tag) {
+            const content = document.getElementById('content');
+            const tagText = `<${tag}></${tag}>`;
+            content.value += tagText;
+        }
+
+        function addImage() {
+            const url = prompt("Enter the image URL");
+            if (url) {
+                const content = document.getElementById('content');
+                const imgTag = `<img src="${url}" alt="Image">`;
+                content.value += imgTag;
+            }
+        }
+
+        function saveBlog() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const category = document.getElementById('category').value;
+            const content = document.getElementById('content').value;
+            const date = new Date().toISOString(); // Get the current date in ISO format
+
+            const newSubmission = blog_db.child(category).push();
+
+            newSubmission.set({
+                title: title,
+                author: author,
+                content: content,
+                date: date, // Save the current date
+                views_count: 0 // Initialize views_count to 0
+            }, function(error) {
+                if (error) {
+                    alert("Error occurred: " + error.message);
+                } else {
+                    alert("Submission successful!");
+                    window.location.href = "admin.html.html"; // Redirect to index.html
+                }
+            });
+        }
+    </script>
+
+<script>
+    if (!sessionStorage.getItem('isAuthenticated')) {
+        alert('You are not authenticated to view this page.');
+        window.close(); // Close the window if not authenticated
+    }
+</script>
+</body>
+</html>

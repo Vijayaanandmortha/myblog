@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Physics, Space Science, and Technology Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .section {
+            padding: 40px 20px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .section p {
+            line-height: 1.6;
+            color: #666;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-item {
+            flex: 0 0 300px;
+            margin-right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            scroll-snap-align: start;
+            margin-bottom: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 200px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .carousel-item-content {
+            padding: 15px;
+        }
+        .carousel-item-content h3 {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .carousel-item-content p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button-container a {
+            text-decoration: none;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+        .button-container a:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .section h2 {
+                font-size: 1.5em;
+            }
+            .carousel-item {
+                flex: 0 0 250px;
+            }
+        }
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .carousel-indicators button {
+            background-color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .carousel-indicators button.active {
+            background-color: #555;
+        }
+/* General styling for the introduction section */
+.introduction-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Profile container styling */
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #fff;
+}
+
+/* Picture styling */
+.profile-container .picture {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.picture img {
+    width: 300px;
+    height: 200px;
+}
+
+/* Profile details styling */
+.profile-container .profile-details {
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+span {
+    font-weight: bolder;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .profile-container .picture {
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+
+  .picture img {
+    width: 250px;
+    height: 150px;
+    margin-top: 20px;
+  }
+  
+  .profile-container .profile-details {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Vijayaanand's Blogspot</h1>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="section">
+            <h2>About Me</h2>
+
+                <div class="profile-container">
+                  <div class="profile-details">
+                    <!-- Add your profile details here -->
+                    <p><span>Name : </span> Vijayaanand</p>
+                    <p><span>Profession : </span> Engineer</p>
+                    <p><span>Passion: </span> Space, Science And Technology</p>
+                    <p><span>Motive : </span> Aspire to explore before you expire...</p>
+                    <p><a href="http://vijayaanandmortha.github.io/portfolio">Know about me more...</a></p>
+                  </div>
+                  <div class="picture">
+                    <!-- Add your profile picture here -->
+                    <img src="Images/profile-picture.jpg" alt="Profile Picture">
+                  </div>
+                </div>
+              
+        </section>        
+
+        <!-- Quantum Physics Section -->
+        <section class="section" id="quantum-physics">
+            <h2>Quantum Physics</h2>
+            <p>Quantum physics is a fascinating field that unveils the mysteries of the universe at the smallest scales.</p>
+            <div class="carousel" id="carousel-quantum-physics">
+                <div class="carousel-item">
+                    <img src="Images/Quantum Entanglement.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Quantum Entanglement</h3>
+                        <p>Discover the strange phenomenon where particles become interconnected...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Schrödinger's Cat.jpeg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Schrödinger's Cat</h3>
+                        <p>Explore the famous thought experiment that challenges our understanding of reality...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Quantum Computing.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Quantum Computing</h3>
+                        <p>Learn how quantum mechanics is revolutionizing computing with unprecedented power...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Wave-Particle Duality.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Wave-Particle Duality</h3>
+                        <p>Understand the dual nature of particles as both waves and particles...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Quantum Field Theory.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Quantum Field Theory</h3>
+                        <p>Dive into the theory that combines quantum mechanics with relativity...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-indicators" id="indicators-quantum-physics"></div>
+        </section>
+
+        <!-- Space Science Section -->
+        <section class="section" id="space-science">
+            <h2>Space Science</h2>
+            <p>Space science explores the vastness of the cosmos, uncovering the secrets of planets, stars, and galaxies.</p>
+            <div class="carousel" id="carousel-space-science">
+                <div class="carousel-item">
+                    <img src="Images/The Solar System.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>The Solar System</h3>
+                        <p>Explore the planets and other celestial bodies that orbit our Sun...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Black Holes.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Black Holes</h3>
+                        <p>Delve into the mysterious and powerful regions of spacetime where gravity dominates...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Exoplanets.jpeg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Exoplanets</h3>
+                        <p>Discover the diverse and intriguing planets that exist outside our solar system...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/The Big Bang Theory.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>The Big Bang Theory</h3>
+                        <p>Learn about the prevailing theory explaining the origin of the universe...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Dark Matter.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Dark Matter</h3>
+                        <p>Investigate the elusive and unseen matter that makes up most of the universe's mass...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-indicators" id="indicators-space-science"></div>
+        </section>
+
+        <!-- Technology Section -->
+        <section class="section" id="technology">
+            <h2>Technology</h2>
+            <p>Technology drives innovation and transformation, impacting every aspect of modern life.</p>
+            <div class="carousel" id="carousel-technology">
+                <div class="carousel-item">
+                    <img src="Images/Artificial Intelligence.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Artificial Intelligence</h3>
+                        <p>Explore how AI is revolutionizing industries with intelligent systems...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Data Science.jpg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Data Science</h3>
+                        <p>Learn about the field that combines statistics, computing, and domain knowledge to extract insights from data...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Machine Learning.png" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Machine Learning</h3>
+                        <p>Understand the algorithms and models that enable computers to learn from data...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Blockchain.jpeg" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Blockchain</h3>
+                        <p>Discover the technology behind cryptocurrencies and decentralized applications...</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="Images/Internet of Things (IoT).png" alt="Article Image">
+                    <div class="carousel-item-content">
+                        <h3>Internet of Things (IoT)</h3>
+                        <p>Explore the interconnected world of smart devices and systems...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-indicators" id="indicators-technology"></div>
+        </section>
+
+        <div class="button-container">
+            <a href="display.html">Read More on the Blog</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Vijayaanand. All rights reserved. | Quantum Physics, Space Science, and Technology Blog</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const carousels = [
+                { id: 'carousel-quantum-physics', indicatorsId: 'indicators-quantum-physics' },
+                { id: 'carousel-space-science', indicatorsId: 'indicators-space-science' },
+                { id: 'carousel-technology', indicatorsId: 'indicators-technology' }
+            ];
+
+            carousels.forEach(carousel => {
+                const carouselElement = document.getElementById(carousel.id);
+                const indicatorsElement = document.getElementById(carousel.indicatorsId);
+                const items = carouselElement.querySelectorAll('.carousel-item');
+                const totalItems = items.length;
+
+                for (let i = 0; i < totalItems; i++) {
+                    const button = document.createElement('button');
+                    if (i === 0) button.classList.add('active');
+                    indicatorsElement.appendChild(button);
+
+                    button.addEventListener('click', () => {
+                        carouselElement.scrollTo({
+                            left: carouselElement.scrollWidth * (i / totalItems),
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+
+                carouselElement.addEventListener('scroll', () => {
+                    const scrollLeft = carouselElement.scrollLeft;
+                    const scrollWidth = carouselElement.scrollWidth;
+                    const activeIndex = Math.round(scrollLeft / (scrollWidth / totalItems));
+
+                    indicatorsElement.querySelectorAll('button').forEach((button, index) => {
+                        button.classList.toggle('active', index === activeIndex);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

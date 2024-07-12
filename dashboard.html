@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        #blogs-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .blog {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .blog h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .blog-buttons {
+            margin-top: 10px;
+        }
+
+        .blog-buttons button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .blog-buttons button.delete {
+            background-color: #DC3545;
+        }
+
+        .blog-buttons a.read-more {
+            text-decoration: none;
+            color: #007BFF;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="blogs-container">
+        <p>Loading blogs...</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1/firebase.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAchO7QObkM-_bXLZvFoqS8cnGTmA2GEdY",
+            authDomain: "blog-posts-456ca.firebaseapp.com",
+            databaseURL: "https://blog-posts-456ca-default-rtdb.firebaseio.com",
+            projectId: "blog-posts-456ca",
+            storageBucket: "blog-posts-456ca.appspot.com",
+            messagingSenderId: "317505468284",
+            appId: "1:317505468284:web:e385ee1385b12eb9c356f9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to get data from Firebase and display it
+        function displayBlogs() {
+            var db = firebase.database().ref('blogs');
+            db.on('value', (snapshot) => {
+                const blogs = snapshot.val();
+                const blogsContainer = document.getElementById('blogs-container');
+                blogsContainer.innerHTML = ''; // Clear previous content if any
+
+                if (blogs) {
+                    Object.keys(blogs).forEach(category => {
+                        Object.keys(blogs[category]).forEach(key => {
+                            const blog = blogs[category][key];
+                            const blogDiv = document.createElement('div');
+                            blogDiv.className = 'blog';
+
+                            const title = document.createElement('h2');
+                            title.textContent = blog.title;
+
+                            const blogButtons = document.createElement('div');
+                            blogButtons.className = 'blog-buttons';
+
+                            const deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.className = 'delete';
+                            deleteButton.onclick = () => deleteBlog(category, key);
+
+                            const updateButton = document.createElement('button');
+                            updateButton.textContent = 'Update';
+                            updateButton.onclick = () => window.location.href = `update.html?category=${category}&key=${key}`;
+
+                            const readMore = document.createElement('a');
+                            readMore.textContent = 'Read More';
+                            readMore.href = `view.html?category=${category}&key=${key}`;
+                            readMore.className = 'read-more';
+
+                            blogButtons.appendChild(readMore);
+                            blogButtons.appendChild(updateButton);
+                            blogButtons.appendChild(deleteButton);
+
+                            blogDiv.appendChild(title);
+                            blogDiv.appendChild(blogButtons);
+
+                            blogsContainer.appendChild(blogDiv);
+                        });
+                    });
+                } else {
+                    blogsContainer.innerHTML = '<p>No blogs found</p>';
+                }
+            });
+        }
+
+        // Function to delete a blog post
+        function deleteBlog(category, key) {
+            var db = firebase.database().ref(`blogs/${category}/${key}`);
+            db.remove()
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error("Error deleting blog: ", error);
+                });
+        }
+
+        // Load data from Firebase when the page is opened
+        window.onload = displayBlogs;
+    </script>
+
+    <script>
+        if (!sessionStorage.getItem('isAuthenticated')) {
+            alert('You are not authenticated to view this page.');
+            window.close(); // Close the window if not authenticated
+        }
+    </script>
+
+</body>
+</html>

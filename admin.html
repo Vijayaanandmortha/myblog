@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clickable Divisions</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container a {
+    text-decoration: none;
+  }
+  .division {
+    width: 80%;
+    max-width: 300px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .division:hover {
+    transform: scale(1.05);
+  }
+  .red {
+    background-color: #ff6347;
+    color: #fff;
+  }
+  .blue {
+    background-color: #4682b4;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <a href="Blog.html" class="division red">Create New Blog</a>
+    <a href="dashboard.html" class="division blue">Admin Panel</a>
+  </div>
+
+  <script>
+    if (!sessionStorage.getItem('isAuthenticated')) {
+        alert('You are not authenticated to view this page.');
+        window.close(); // Close the window if not authenticated
+    }
+</script>
+</body>
+</html>
